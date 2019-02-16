@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using SharedObjects.Models.Options;
 
 namespace apw.Models.Options
 {

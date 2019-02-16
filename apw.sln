@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "apw-cli", "apw-cli\apw-cli.csproj", "{C7D633DD-4007-4A88-9FB5-9E4CAB663B64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "apw", "apw\apw.csproj", "{5F672104-1A18-4251-AA41-DEBBE4FB6090}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "apw", "apw\apw.csproj", "{5F672104-1A18-4251-AA41-DEBBE4FB6090}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedObjects", "SharedObjects\SharedObjects.csproj", "{5FF0F1DA-98DE-4950-80AF-364C838BAEDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5F672104-1A18-4251-AA41-DEBBE4FB6090}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F672104-1A18-4251-AA41-DEBBE4FB6090}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F672104-1A18-4251-AA41-DEBBE4FB6090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FF0F1DA-98DE-4950-80AF-364C838BAEDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FF0F1DA-98DE-4950-80AF-364C838BAEDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FF0F1DA-98DE-4950-80AF-364C838BAEDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FF0F1DA-98DE-4950-80AF-364C838BAEDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

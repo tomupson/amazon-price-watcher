@@ -10,7 +10,7 @@ namespace apw
     {
         private static int Main(string[] args)
         {
-            return Parser.Default.ParseArguments<WatchOptions, InstallOptions, CheckOptions>(args)
+            return Parser.Default.ParseArguments<WatchOptions, InstallOptions>(args)
                 .MapResult((WatchOptions options) =>
                 {
                     Console.WriteLine(options.ProductUrl);
@@ -33,7 +33,7 @@ namespace apw
                             ts.GetFolder("APW")?.DeleteTask("APWPriceWatcher", false);
 
                             TaskDefinition td = ts.NewTask();
-                            td.RegistrationInfo.Description = "Executes 'apw check' to check all items on the watchlist";
+                            td.RegistrationInfo.Description = "Executes 'apw run' to check all items on the watchlist";
                             td.RegistrationInfo.Author = "Tom Upson";
 
                             LogonTrigger trigger = (LogonTrigger)Trigger.CreateTrigger(TaskTriggerType.Logon);
@@ -42,7 +42,7 @@ namespace apw
 
                             td.Triggers.Add(trigger);
 
-                            td.Actions.Add(new ExecAction("apw", "check"));
+                            td.Actions.Add(new ExecAction("apw", "run"));
 
                             TaskFolder folder = ts.GetFolder("APW");
                             if (folder == null)
@@ -64,11 +64,6 @@ namespace apw
                         Console.WriteLine(ex);
                     }
 
-                    Console.ReadKey();
-                    return 1;
-                },  (CheckOptions options) =>
-                {
-                    Console.WriteLine("Running \"check\"");
                     Console.ReadKey();
                     return 1;
                 }, errors =>
