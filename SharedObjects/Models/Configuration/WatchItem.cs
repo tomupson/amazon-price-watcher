@@ -2,6 +2,6 @@
 {
     public abstract class WatchItem
     {
-        public string Url { get; set; }
+        public string ProductCode { get; set; }
     }
 }

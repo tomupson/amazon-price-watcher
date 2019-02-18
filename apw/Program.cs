@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using apw.Exceptions;
 using apw.Helpers;
 using apw.Models.Options;
 using CommandLine;
 using HtmlAgilityPack;
 using SharedObjects.Models.Configuration;
+using SharedObjects.Models.Enums;
 
 namespace apw
 {
     internal class Program
     {
-        private const string AVAILABILITY_NODE_ID = "availability_feature_div";
-
         private static APWConfiguration mockConfiguration = new APWConfiguration
         {
+            Country = Country.UnitedKingdom,
             ItemsToWatch = new List<WatchItem>
             {
-                new AvailabilityWatchItem { Url = "https://www.amazon.co.uk/dp/B01J66BMXC" },
-                new AvailabilityWatchItem { Url = "https://www.amazon.co.uk/dp/B0134EW7G8" }
+                new AvailabilityWatchItem { ProductCode = "B06XRWYXJY" },
+                new PriceWatchItem { ProductCode = "B0134EW7G8" }
             }
         };
 
@@ -29,33 +29,43 @@ namespace apw
                 foreach (WatchItem item in mockConfiguration.ItemsToWatch)
                 {
                     HtmlDocument doc = new HtmlDocument();
+                    string tld = LocalisationHelper.GetLocalisedTld(mockConfiguration.Country);
+                    string url = $"https://amazon.{tld}/dp/{item.ProductCode}";
 
                     // TODO: Properly make this asynchronous
-                    string html = WebHelper.GetHtml(item.Url).Result;
+                    string html = WebHelper.GetHtml(url).Result;
                     doc.LoadHtml(html);
 
                     switch (item)
                     {
                         case AvailabilityWatchItem availabilityItem:
-                            HtmlNode availabilityNode = doc.DocumentNode.Descendants().Where(n => n.NodeType == HtmlNodeType.Element && n.Name == "div")
-                                .FirstOrDefault(e => e.GetAttributeValue("id", "").Equals(AVAILABILITY_NODE_ID, StringComparison.OrdinalIgnoreCase));
-
-                            if (availabilityNode == null)
+                            try
                             {
-                                Console.WriteLine("Something went wrong");
+                                bool available = AvailablityHelper.GetAvailability(doc);
+                            } catch (APWException ex)
+                            {
+                                Console.WriteLine("Something went wrong!");
+
                                 if (options.Verbose)
                                 {
-                                    Console.WriteLine($"The node \"#{AVAILABILITY_NODE_ID}\" could not be found");
+                                    Console.WriteLine(ex.Message);
                                 }
-
-                                continue;
                             }
-
-                            bool available = string.IsNullOrWhiteSpace(availabilityNode.InnerText.Replace("\n", "").Replace("\t", ""));
 
                             break;
                         case PriceWatchItem priceItem:
+                            try
+                            {
+                                decimal nextPrice = PriceHelper.GetCurrentPrice(doc, mockConfiguration.Country);
+                            } catch (APWException ex)
+                            {
+                                Console.WriteLine("Something went wrong!");
 
+                                if (options.Verbose)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                }
+                            }
                             break;
                     }
                 }
