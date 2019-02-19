@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using apw.Exceptions;
 using apw.Helpers;
 using apw.Models.Options;
@@ -22,56 +24,68 @@ namespace apw
             }
         };
 
-        private static int Main(string[] args)
+        private static async Task ProcessItemAsync(RunOptions options, WatchItem item)
         {
-            return Parser.Default.ParseArguments<RunOptions>(args).MapResult(options =>
+            string tld = LocalisationHelper.GetLocalisedTld(mockConfiguration.Country);
+            string url = $"https://amazon.{tld}/dp/{item.ProductCode}";
+            string html = await WebHelper.GetHtml(url);
+
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            switch (item)
             {
-                foreach (WatchItem item in mockConfiguration.ItemsToWatch)
-                {
-                    HtmlDocument doc = new HtmlDocument();
-                    string tld = LocalisationHelper.GetLocalisedTld(mockConfiguration.Country);
-                    string url = $"https://amazon.{tld}/dp/{item.ProductCode}";
-
-                    // TODO: Properly make this asynchronous
-                    string html = WebHelper.GetHtml(url).Result;
-                    doc.LoadHtml(html);
-
-                    switch (item)
+                case AvailabilityWatchItem availabilityItem:
+                    try
                     {
-                        case AvailabilityWatchItem availabilityItem:
-                            try
-                            {
-                                bool available = AvailablityHelper.GetAvailability(doc);
-                            } catch (APWException ex)
-                            {
-                                Console.WriteLine("Something went wrong!");
+                        bool available = AvailablityHelper.GetAvailability(doc);
+                    } catch (APWException ex)
+                    {
+                        Console.WriteLine("Something went wrong!");
 
-                                if (options.Verbose)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
-                            }
-
-                            break;
-                        case PriceWatchItem priceItem:
-                            try
-                            {
-                                decimal nextPrice = PriceHelper.GetCurrentPrice(doc, mockConfiguration.Country);
-                            } catch (APWException ex)
-                            {
-                                Console.WriteLine("Something went wrong!");
-
-                                if (options.Verbose)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
-                            }
-                            break;
+                        if (options.Verbose)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                     }
-                }
 
+                    break;
+                case PriceWatchItem priceItem:
+                    try
+                    {
+                        decimal nextPrice = PriceHelper.GetCurrentPrice(doc, mockConfiguration.Country);
+                    } catch (APWException ex)
+                    {
+                        Console.WriteLine("Something went wrong!");
+
+                        if (options.Verbose)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private static async Task<int> Main(string[] args)
+        {
+            RunOptions options = null;
+            int exitCode = Parser.Default.ParseArguments<RunOptions>(args).MapResult(opts =>
+            {
+                options = opts;
                 return 1;
-            }, errors => 1);
+            }, errors =>
+            {
+                Console.WriteLine("Error parsing!");
+                return 1;
+            });
+
+            if (options != null)
+            {
+                await Task.WhenAll(mockConfiguration.ItemsToWatch.Select(item => ProcessItemAsync(options, item)).ToArray());
+            }
+
+            return exitCode;
         }
     }
 }

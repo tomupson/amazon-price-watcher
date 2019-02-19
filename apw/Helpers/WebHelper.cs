@@ -1,11 +1,15 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace apw.Helpers
 {
     public static class WebHelper
     {
-        private static readonly HttpClient _client = new HttpClient();
+        private static readonly HttpClient _client = new HttpClient(new HttpClientHandler
+        {
+            AutomaticDecompression = (DecompressionMethods)0xFF
+        });
 
         public static async Task<string> GetHtml(string url)
         {
