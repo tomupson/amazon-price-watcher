@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using apw.Data;
 using apw.Exceptions;
 using apw.Helpers;
 using apw.Models.Options;
@@ -20,7 +21,7 @@ namespace apw
             ItemsToWatch = new List<WatchItem>
             {
                 new AvailabilityWatchItem { ProductCode = "B06XRWYXJY" },
-                new PriceWatchItem { ProductCode = "B0134EW7G8" }
+                new PriceWatchItem { ProductCode = "B0791RGQW3" }
             }
         };
 
@@ -32,13 +33,14 @@ namespace apw
 
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(html);
+            HtmlNode dp = doc.DocumentNode.SelectSingleNode(XPathConstants.PRODUCT);
 
             switch (item)
             {
                 case AvailabilityWatchItem availabilityItem:
                     try
                     {
-                        bool available = AvailablityHelper.GetAvailability(doc);
+                        bool available = AvailablityHelper.GetAvailability(dp);
                     } catch (APWException ex)
                     {
                         Console.WriteLine("Something went wrong!");
@@ -53,7 +55,7 @@ namespace apw
                 case PriceWatchItem priceItem:
                     try
                     {
-                        decimal nextPrice = PriceHelper.GetCurrentPrice(doc, mockConfiguration.Country);
+                        decimal nextPrice = PriceHelper.GetCurrentPrice(dp, mockConfiguration.Country);
                     } catch (APWException ex)
                     {
                         Console.WriteLine("Something went wrong!");

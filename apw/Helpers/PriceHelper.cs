@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using apw.Data;
 using apw.Exceptions;
 using HtmlAgilityPack;
 using SharedObjects.Models.Enums;
@@ -8,16 +9,13 @@ namespace apw.Helpers
 {
     public static class PriceHelper
     {
-        private const string PRICE_DIV_XPATH = "//*[@id=\"unifiedPrice_feature_div\"]";
-        private const string PRICE_XPATH = "//*[@id=\"priceblock_ourprice\"]";
-
-        public static decimal GetCurrentPrice(HtmlDocument doc, Country country)
+        public static decimal GetCurrentPrice(HtmlNode dp, Country country)
         {
-            HtmlNode priceDiv = doc.DocumentNode.SelectSingleNode(PRICE_DIV_XPATH);
+            HtmlNode priceDiv = dp.SelectSingleNode(XPathConstants.PRICE_FEATURE);
 
             if (priceDiv == null)
             {
-                throw new APWException($"Could not find the node that corresponds to the price of the requested product (xpath: {PRICE_DIV_XPATH})");
+                throw new APWException($"Could not find the node that corresponds to the price of the requested product (xpath: {XPathConstants.PRICE_FEATURE})");
             }
 
             if (string.IsNullOrWhiteSpace(priceDiv.InnerText))
@@ -25,7 +23,12 @@ namespace apw.Helpers
                 Console.WriteLine("The requested product cannot be price checked as it is currently unavailable");
             }
 
-            HtmlNode priceNode = priceDiv.SelectSingleNode(PRICE_XPATH);
+            HtmlNode priceNode = priceDiv.SelectSingleNode(XPathConstants.PRICE) ?? priceDiv.SelectSingleNode(XPathConstants.PRICE_DEAL);
+
+            if (priceNode == null || string.IsNullOrWhiteSpace(priceNode.InnerText))
+            {
+                throw new APWException("The price node was not empty, but no price could be found");
+            }
 
             if (decimal.TryParse(priceNode.InnerText, NumberStyles.Currency, LocalisationHelper.GetCultureInfo(country), out decimal price))
             {
