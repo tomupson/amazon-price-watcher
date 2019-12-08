@@ -6,6 +6,14 @@ pool:
 
 steps:
 - task: DotNetCoreCLI@2
+  displayName: 'dotnet restore'
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+    vstsFeed: 'a5cd03bc-299d-4779-93c0-a6343c68a9c1'
+    noCache: true
+
+- task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
     command: build
