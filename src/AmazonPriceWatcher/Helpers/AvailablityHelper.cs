@@ -1,21 +1,16 @@
-﻿using apw.Data;
-using apw.Exceptions;
+using AmazonPriceWatcher.Data;
+using AmazonPriceWatcher.Exceptions;
 using HtmlAgilityPack;
 
-namespace apw.Helpers
+namespace AmazonPriceWatcher.Helpers;
+
+internal static class AvailablityHelper
 {
-    public static class AvailablityHelper
+    public static bool GetAvailability(HtmlNode dp)
     {
-        public static bool GetAvailability(HtmlNode dp)
-        {
-            HtmlNode availabilityNode = dp.SelectSingleNode(XPathConstants.AVAILABILITY_FEATURE);
+        HtmlNode availabilityNode = dp.SelectSingleNode(XPathConstants.AvailabilityFeature)
+            ?? throw new APWException($"Could not find the node that corresponds to the availablity of the requested product (xpath: {XPathConstants.AvailabilityFeature})");
 
-            if (availabilityNode == null)
-            {
-                throw new APWException($"Could not find the node that corresponds to the availablity of the requested product (xpath: {XPathConstants.AVAILABILITY_FEATURE})");
-            }
-
-            return string.IsNullOrWhiteSpace(availabilityNode.InnerText);
-        }
+        return string.IsNullOrWhiteSpace(availabilityNode.InnerText);
     }
 }

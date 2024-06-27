@@ -2,19 +2,16 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <ApplicationIcon />
-    <StartupObject />
-    <LangVersion>latest</LangVersion>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.4.3" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.8.14" />
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharedObjects\AmazonPriceWatcher.SharedObjects.csproj" />
+    <ProjectReference Include="..\AmazonPriceWatcher.SharedObjects\AmazonPriceWatcher.SharedObjects.csproj" />
   </ItemGroup>
 
 </Project>

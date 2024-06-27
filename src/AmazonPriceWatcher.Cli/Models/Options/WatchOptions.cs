@@ -1,12 +1,11 @@
-﻿using CommandLine;
-using SharedObjects.Models.Options;
+using AmazonPriceWatcher.SharedObjects.Models.Options;
+using CommandLine;
 
-namespace apw.Models.Options
+namespace AmazonPriceWatcher.Cli.Models.Options;
+
+[Verb("watch")]
+internal sealed class WatchOptions : BaseOptions
 {
-    [Verb("watch")]
-    internal class WatchOptions : BaseOptions
-    {
-        [Value(0, Required = true, HelpText = "The url or code of the product to watch", MetaName = nameof(ProductUrl))]
-        public string ProductUrl { get; set; }
-    }
+    [Value(0, Required = true, HelpText = "The url or code of the product to watch", MetaName = nameof(ProductUrl))]
+    public required string ProductUrl { get; set; }
 }

@@ -1,21 +1,18 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
+using System.Net;
 
-namespace apw.Helpers
+namespace AmazonPriceWatcher.Helpers;
+
+internal static class WebHelper
 {
-    public static class WebHelper
+    private static readonly HttpClient _client = new HttpClient(new HttpClientHandler
     {
-        private static readonly HttpClient _client = new HttpClient(new HttpClientHandler
-        {
-            AutomaticDecompression = (DecompressionMethods)0xFF
-        });
+        AutomaticDecompression = (DecompressionMethods)0xFF
+    });
 
-        public static async Task<string> GetHtml(string url)
-        {
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
-            HttpResponseMessage response = await _client.SendAsync(request);
-            return await response.Content.ReadAsStringAsync();
-        }
+    public static async Task<string> GetHtml(string url)
+    {
+        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
+        HttpResponseMessage response = await _client.SendAsync(request);
+        return await response.Content.ReadAsStringAsync();
     }
 }

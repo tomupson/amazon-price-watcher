@@ -1,11 +1,10 @@
-﻿using CommandLine;
-using SharedObjects.Models.Options;
+using AmazonPriceWatcher.SharedObjects.Models.Options;
+using CommandLine;
 
-namespace apw.Models.Options
+namespace AmazonPriceWatcher.Models.Options;
+
+[Verb("run", Hidden = true)]
+internal sealed class RunOptions : BaseOptions
 {
-    [Verb("run", Hidden = true)]
-    public class RunOptions : BaseOptions
-    {
 
-    }
 }

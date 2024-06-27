@@ -1,11 +1,5 @@
-﻿using System;
+namespace AmazonPriceWatcher.Exceptions;
 
-namespace apw.Exceptions
+internal sealed class APWException(string message) : Exception(message)
 {
-    public class APWException : Exception
-    {
-        public APWException(string message) : base(message)
-        {
-        }
-    }
 }

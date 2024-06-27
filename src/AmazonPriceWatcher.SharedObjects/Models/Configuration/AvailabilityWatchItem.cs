@@ -1,7 +1,6 @@
-﻿namespace SharedObjects.Models.Configuration
-{
-    public class AvailabilityWatchItem : WatchItem
-    {
+namespace AmazonPriceWatcher.SharedObjects.Models.Configuration;
 
-    }
+public sealed class AvailabilityWatchItem : WatchItem
+{
+
 }

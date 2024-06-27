@@ -1,17 +1,12 @@
-﻿namespace apw.Data
+namespace AmazonPriceWatcher.Data;
+
+internal static class XPathConstants
 {
-    public class XPathConstants
-    {
-        public const string PRODUCT = "//*[@id=\"dp\"]";
+    public const string Product = "//*[@id=\"dp\"]";
 
-        #region Availability
-        public const string AVAILABILITY_FEATURE = "//*[@id=\"availability_feature_div\"]";
-        #endregion
+    public const string AvailabilityFeature = "//*[@id=\"availability_feature_div\"]";
 
-        #region Price
-        public const string PRICE_FEATURE = "//*[@id=\"unifiedPrice_feature_div\"]";
-        public const string PRICE = "//*[@id=\"priceblock_ourprice\"]";
-        public const string PRICE_DEAL = "//*[@id=\"priceblock_dealprice\"]";
-        #endregion
-    }
+    public const string PriceFeature = "//*[@id=\"unifiedPrice_feature_div\"]";
+    public const string Price = "//*[@id=\"priceblock_ourprice\"]";
+    public const string PriceDeal = "//*[@id=\"priceblock_dealprice\"]";
 }

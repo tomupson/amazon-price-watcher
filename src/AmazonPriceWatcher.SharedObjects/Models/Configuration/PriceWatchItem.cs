@@ -1,7 +1,6 @@
-﻿namespace SharedObjects.Models.Configuration
+namespace AmazonPriceWatcher.SharedObjects.Models.Configuration;
+
+public sealed class PriceWatchItem : WatchItem
 {
-    public class PriceWatchItem : WatchItem
-    {
-        public double PriceThreshold { get; set; }
-    }
+    public double PriceThreshold { get; set; }
 }

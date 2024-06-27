@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using SharedObjects.Models.Enums;
+using AmazonPriceWatcher.SharedObjects.Models.Enums;
 
-namespace SharedObjects.Models.Configuration
+namespace AmazonPriceWatcher.SharedObjects.Models.Configuration;
+
+public sealed class APWConfiguration
 {
-    public class APWConfiguration
-    {
-        public Country Country { get; set; }
+    public Country Country { get; set; }
 
-        public List<WatchItem> ItemsToWatch { get; set; } = new List<WatchItem>();
-    }
+    public List<WatchItem> ItemsToWatch { get; set; } = new List<WatchItem>();
 }

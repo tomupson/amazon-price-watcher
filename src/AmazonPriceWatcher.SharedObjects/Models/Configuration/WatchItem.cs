@@ -1,7 +1,6 @@
-﻿namespace SharedObjects.Models.Configuration
+namespace AmazonPriceWatcher.SharedObjects.Models.Configuration;
+
+public abstract class WatchItem
 {
-    public abstract class WatchItem
-    {
-        public string ProductCode { get; set; }
-    }
+    public required string ProductCode { get; set; }
 }
