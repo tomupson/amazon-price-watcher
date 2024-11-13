@@ -2,7 +2,7 @@ using AmazonPriceWatcher.SharedObjects.Models.Enums;
 
 namespace AmazonPriceWatcher.SharedObjects.Models.Configuration;
 
-public sealed class APWConfiguration
+public sealed class ApwConfiguration
 {
     public Country Country { get; set; }
 

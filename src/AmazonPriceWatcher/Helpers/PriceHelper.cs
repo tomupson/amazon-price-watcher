@@ -11,7 +11,7 @@ internal static class PriceHelper
     public static decimal GetCurrentPrice(HtmlNode dp, Country country)
     {
         HtmlNode priceDiv = dp.SelectSingleNode(XPathConstants.PriceFeature)
-            ?? throw new APWException($"Could not find the node that corresponds to the price of the requested product (xpath: {XPathConstants.PriceFeature})");
+            ?? throw new ApwException($"Could not find the node that corresponds to the price of the requested product (xpath: {XPathConstants.PriceFeature})");
 
         if (string.IsNullOrWhiteSpace(priceDiv.InnerText))
         {
@@ -22,7 +22,7 @@ internal static class PriceHelper
 
         if (priceNode == null || string.IsNullOrWhiteSpace(priceNode.InnerText))
         {
-            throw new APWException("The price node was not empty, but no price could be found");
+            throw new ApwException("The price node was not empty, but no price could be found");
         }
 
         if (decimal.TryParse(priceNode.InnerText, NumberStyles.Currency, LocalisationHelper.GetCultureInfo(country), out decimal price))
@@ -30,6 +30,6 @@ internal static class PriceHelper
             return price;
         }
 
-        throw new APWException("The price node was not empty, but the price could not be parsed");
+        throw new ApwException("The price node was not empty, but the price could not be parsed");
     }
 }

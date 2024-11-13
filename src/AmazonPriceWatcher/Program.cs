@@ -11,7 +11,7 @@ namespace AmazonPriceWatcher;
 
 internal static class Program
 {
-    private static readonly APWConfiguration mockConfiguration = new APWConfiguration
+    private static readonly ApwConfiguration mockConfiguration = new ApwConfiguration
     {
         Country = Country.UnitedKingdom,
         ItemsToWatch = new List<WatchItem>
@@ -38,7 +38,7 @@ internal static class Program
                 {
                     bool available = AvailablityHelper.GetAvailability(dp);
                 }
-                catch (APWException ex)
+                catch (ApwException ex)
                 {
                     Console.WriteLine("Something went wrong!");
 
@@ -54,7 +54,7 @@ internal static class Program
                 {
                     decimal nextPrice = PriceHelper.GetCurrentPrice(dp, mockConfiguration.Country);
                 }
-                catch (APWException ex)
+                catch (ApwException ex)
                 {
                     Console.WriteLine("Something went wrong!");
 
@@ -70,15 +70,17 @@ internal static class Program
     private static async Task<int> Main(string[] args)
     {
         RunOptions? options = null;
-        int exitCode = Parser.Default.ParseArguments<RunOptions>(args).MapResult(opts =>
-        {
-            options = opts;
-            return 1;
-        }, errors =>
-        {
-            Console.WriteLine("Error parsing!");
-            return 1;
-        });
+        int exitCode = Parser.Default.ParseArguments<RunOptions>(args).MapResult(
+            opts =>
+            {
+                options = opts;
+                return 1;
+            },
+                _ =>
+            {
+                Console.WriteLine("Error parsing!");
+                return 1;
+            });
 
         if (options != null)
         {
