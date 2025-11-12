@@ -6,7 +6,7 @@ internal static class WebHelper
 {
     private static readonly HttpClient client = new HttpClient(new HttpClientHandler
     {
-        AutomaticDecompression = DecompressionMethods.All
+        AutomaticDecompression = DecompressionMethods.All,
     });
 
     public static async Task<string> GetHtml(string url)

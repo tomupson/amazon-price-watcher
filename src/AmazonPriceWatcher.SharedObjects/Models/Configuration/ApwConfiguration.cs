@@ -4,7 +4,7 @@ namespace AmazonPriceWatcher.SharedObjects.Models.Configuration;
 
 public sealed class ApwConfiguration
 {
-    public Country Country { get; set; }
+    public Country Country { get; init; }
 
-    public List<WatchItem> ItemsToWatch { get; set; } = new List<WatchItem>();
+    public List<WatchItem> ItemsToWatch { get; init; } = new List<WatchItem>();
 }

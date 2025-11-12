@@ -22,7 +22,7 @@ internal static class LocalisationHelper
         Country.Spain => "es",
         Country.Turkey => "com.tr",
         Country.UnitedKingdom => "co.uk",
-        _ => "com"
+        _ => "com",
     };
 
     public static CultureInfo GetCultureInfo(Country country)
@@ -44,7 +44,7 @@ internal static class LocalisationHelper
             Country.Spain => "es-ES",
             Country.Turkey => "tr-TR",
             Country.UnitedKingdom => "en-GB",
-            _ => "en-US"
+            _ => "en-US",
         };
 
         return CultureInfo.GetCultureInfo(cultureCode);

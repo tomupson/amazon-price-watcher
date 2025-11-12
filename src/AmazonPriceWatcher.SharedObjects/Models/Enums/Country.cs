@@ -17,5 +17,5 @@ public enum Country
     Mexico,
     UnitedStates,
     Australia,
-    Brazil
+    Brazil,
 }

@@ -17,8 +17,8 @@ internal static class Program
         ItemsToWatch = new List<WatchItem>
         {
             new AvailabilityWatchItem { ProductCode = "B06XRWYXJY" },
-            new PriceWatchItem { ProductCode = "B0791RGQW3" }
-        }
+            new PriceWatchItem { ProductCode = "B0791RGQW3" },
+        },
     };
 
     private static async Task ProcessItemAsync(RunOptions options, WatchItem item)
